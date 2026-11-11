@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="uk" class="no-js">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0A0F1F" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="description" content="Інтерактивна онлайн STEM-школа для дітей та підлітків 7–18 років без нудних лекцій та живих вчителів: 4 фірмові напрями, симулятори, квести та Socratic AI-ментор 24/7." />
+  <title>TutaCode — STEM-школа нового покоління (Android / iOS)</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Unbounded:wght@500;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="main.css" />
+  <script>document.documentElement.classList.replace('no-js', 'js');</script>
+</head>
+<body data-age="kid" data-theme="dark">
+
+  <!-- ============ SVG-спрайт: робот Тута та графічні мотиви брендбуку ============ -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="botBody" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#A78BFA" />
+        <stop offset="1" stop-color="#7C3AED" />
+      </linearGradient>
+      <linearGradient id="botBody-logic" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#F9CE33" />
+        <stop offset="1" stop-color="#F66E11" />
+      </linearGradient>
+      <linearGradient id="botBody-gamedev" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#F44E6B" />
+        <stop offset="1" stop-color="#D300C5" />
+      </linearGradient>
+      <linearGradient id="botBody-web" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#00B6EF" />
+        <stop offset="1" stop-color="#2563EB" />
+      </linearGradient>
+      <linearGradient id="botBody-python" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#22C55E" />
+        <stop offset="1" stop-color="#123727" />
+      </linearGradient>
+      <filter id="ledGlow" x="-100%" y="-100%" width="300%" height="300%">
+        <feGaussianBlur stdDeviation="7" />
+      </filter>
+      <symbol id="tuta-bot" viewBox="0 0 120 120">
+        <line class="bot-line" x1="60" y1="16" x2="60" y2="30" stroke="var(--tuta-accent, #B8FF3C)" stroke-width="4" stroke-linecap="round" />
+        <circle class="bot-antenna" cx="60" cy="12" r="6" fill="var(--tuta-antenna, #FF4FA3)" />
+        <rect class="bot-ear" x="8" y="50" width="12" height="24" rx="6" fill="var(--tuta-ear, #6D28D9)" />
+        <rect class="bot-ear" x="100" y="50" width="12" height="24" rx="6" fill="var(--tuta-ear, #6D28D9)" />
+        <rect class="bot-body" x="18" y="28" width="84" height="68" rx="24" fill="var(--tuta-body, url(#botBody))" />
+        <rect x="28" y="40" width="64" height="42" rx="15" fill="#0B1020" />
+        <g class="bot-eyes">
+          <ellipse class="bot-eye" cx="46" cy="58" rx="6.5" ry="7.5" fill="var(--tuta-eye, #22D3EE)" />
+          <ellipse class="bot-eye" cx="74" cy="58" rx="6.5" ry="7.5" fill="var(--tuta-eye, #22D3EE)" />
+          <circle cx="48" cy="55.5" r="2" fill="#fff" />
+          <circle cx="76" cy="55.5" r="2" fill="#fff" />
+        </g>
+        <path class="bot-mouth" d="M50 71 Q60 78 70 71" stroke="var(--tuta-eye, #22D3EE)" stroke-width="3.2" fill="none" stroke-linecap="round" />
+        <circle class="bot-cheek" cx="36" cy="72" r="3.5" fill="var(--tuta-antenna, #FF4FA3)" opacity=".55" />
+        <circle class="bot-cheek" cx="84" cy="72" r="3.5" fill="var(--tuta-antenna, #FF4FA3)" opacity=".55" />
+        <rect class="bot-ear" x="40" y="96" width="40" height="16" rx="8" fill="var(--tuta-ear, #6D28D9)" />
+        <circle class="bot-accent" cx="52" cy="104" r="3" fill="var(--tuta-accent, #B8FF3C)" />
+        <circle class="bot-accent" cx="68" cy="104" r="3" fill="var(--tuta-accent, #B8FF3C)" />
+      </symbol>
+
+      <!-- Мотив 1: Logo Blocks (Стикуючі пазли та візуальні блоки) -->
+      <symbol id="motif-blocks" viewBox="0 0 64 64">
+        <path d="M10 14 h16 a4 4 0 0 1 8 0 h14 a4 4 0 0 1 4 4 v10 a4 4 0 0 1 -4 4 h-14 a4 4 0 0 0 -8 0 h-16 a4 4 0 0 1 -4 -4 v-10 a4 4 0 0 1 4 -4 z" fill="currentColor" opacity=".95" />
+        <path d="M14 34 h12 a4 4 0 0 0 8 0 h16 a4 4 0 0 1 4 4 v10 a4 4 0 0 1 -4 4 h-16 a4 4 0 0 1 -8 0 h-12 a4 4 0 0 1 -4 -4 v-10 a4 4 0 0 1 4 -4 z" fill="currentColor" opacity=".65" />
+        <circle cx="17" cy="23" r="2.5" fill="#0A0F1F" opacity=".45" />
+        <circle cx="21" cy="43" r="2.5" fill="#0A0F1F" opacity=".45" />
+      </symbol>
+
+      <!-- Мотив 2: Voxel & 3D (Ізометричний воксельний куб та ігрові грані) -->
+      <symbol id="motif-voxel" viewBox="0 0 64 64">
+        <polygon points="32,8 54,20 32,32 10,20" fill="currentColor" opacity=".98" />
+        <polygon points="10,20 32,32 32,56 10,44" fill="currentColor" opacity=".72" />
+        <polygon points="54,20 32,32 32,56 54,44" fill="currentColor" opacity=".48" />
+        <circle cx="32" cy="20" r="3" fill="#0A0F1F" opacity=".35" />
+      </symbol>
+
+      <!-- Мотив 3: Web Grid & < /> (Модульна сітка та кутові дужки тегів) -->
+      <symbol id="motif-grid" viewBox="0 0 64 64">
+        <rect x="8" y="10" width="48" height="44" rx="7" fill="none" stroke="currentColor" stroke-width="3.2" opacity=".6" />
+        <line x1="8" y1="21" x2="56" y2="21" stroke="currentColor" stroke-width="2.5" opacity=".55" />
+        <polyline points="24,31 16,37 24,43" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+        <polyline points="40,31 48,37 40,43" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+        <line x1="34" y1="29" x2="30" y2="45" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" />
+      </symbol>
+
+      <!-- Мотив 4: Neural Graph & >_ (Вузли графа, нейромережі та консоль) -->
+      <symbol id="motif-nodes" viewBox="0 0 64 64">
+        <line x1="18" y1="18" x2="46" y2="16" stroke="currentColor" stroke-width="2.5" opacity=".55" />
+        <line x1="18" y1="18" x2="32" y2="46" stroke="currentColor" stroke-width="2.5" opacity=".55" />
+        <line x1="46" y1="16" x2="32" y2="46" stroke="currentColor" stroke-width="2.5" opacity=".55" />
+        <circle cx="18" cy="18" r="5" fill="currentColor" opacity=".8" />
+        <circle cx="46" cy="16" r="5" fill="currentColor" opacity=".8" />
+        <circle cx="32" cy="46" r="5" fill="currentColor" opacity=".8" />
+        <polyline points="20,28 28,34 20,40" fill="none" stroke="currentColor" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" />
+        <line x1="32" y1="40" x2="43" y2="40" stroke="currentColor" stroke-width="4.2" stroke-linecap="round" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <div id="phoneFrameWrapper" class="site-shell">
+
+    <!-- ============ ВЕРХНЯ ПАНЕЛЬ ============ -->
+    <header class="topbar">
+      <div class="container topbar__inner">
+        <a href="#home" class="logo" aria-label="TutaCode">
+          <span class="logo__mark"><svg><use href="#tuta-bot" /></svg></span>
+          <span class="logo__text">Tuta<b>Code</b></span>
+        </a>
+
+        <nav class="topnav" aria-label="Main">
+          <a href="#arena" data-nav="arena" data-i18n="nav.arena"></a>
+          <a href="#how" data-nav="how" data-i18n="nav.how"></a>
+          <a href="#play" data-nav="play" data-i18n="nav.play"></a>
+          <a href="#tracks" data-nav="tracks" data-i18n="nav.tracks"></a>
+          <a href="#pricing" data-nav="pricing" data-i18n="nav.pricing"></a>
+          <a href="#rewards" data-nav="rewards" data-i18n="nav.rewards"></a>
+          <a href="#parents" data-nav="parents" data-i18n="nav.parents"></a>
+        </nav>
+
+        <div class="topbar__actions">
+          <a href="#rewards" class="xp-chip" id="xpChip" aria-live="polite">
+            <span aria-hidden="true">⚡</span><b id="xpValue">0</b><small>XP</small>
+          </a>
+          <div class="lang-switch" role="group" data-i18n-aria="nav.lang">
+            <button type="button" data-lang="ua">UA</button>
+            <button type="button" data-lang="ru">RU</button>
+          </div>
+          <button type="button" class="icon-btn" id="themeToggle" data-i18n-aria="nav.theme" title="Light / Dark">☀️</button>
+          <button type="button" class="icon-btn phone-preview-btn" id="phoneFrameToggle" data-i18n-aria="nav.previewPhone" title="iOS / Android Frame">📱</button>
+          <button type="button" class="btn btn--primary btn--sm topbar__cta" data-open-signup data-i18n="nav.start"></button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- ============ HERO ============ -->
+      <section id="home" class="hero section">
+        <div class="hero__deco hero__deco--kid" aria-hidden="true">
+          <span>⭐</span><span>💡</span><span>🔋</span><span>🚀</span><span>⚙️</span><span>🎈</span>
+        </div>
+        <div class="hero__deco hero__deco--teen" aria-hidden="true">
+          <span>&lt;/&gt;</span><span>{ }</span><span>01</span><span>AI</span><span>∑</span><span>⚡</span>
+        </div>
+
+        <div class="container hero__grid">
+          <div class="hero__text">
+            <span class="pill" data-i18n="hero.badge"></span>
+
+            <div class="age-switch">
+              <span class="age-switch__label" data-i18n="hero.ageQ"></span>
+              <div class="segmented" id="ageSwitch" role="radiogroup">
+                <span class="segmented__thumb" aria-hidden="true"></span>
+                <button type="button" role="radio" data-age-btn="kid"><span aria-hidden="true">🧒</span> <span data-i18n="hero.kid"></span></button>
+                <button type="button" role="radio" data-age-btn="teen"><span aria-hidden="true">🧑‍💻</span> <span data-i18n="hero.teen"></span></button>
+              </div>
+            </div>
+
+            <h1 class="hero__title" data-i18n="hero.title"></h1>
+            <p class="hero__sub" data-i18n="hero.sub"></p>
+
+            <div class="hero__cta">
+              <button type="button" class="btn btn--primary btn--lg" data-open-signup data-i18n="hero.cta"></button>
+              <a class="btn btn--ghost btn--lg" href="#play" data-i18n="hero.demo"></a>
+            </div>
+
+            <ul class="stats">
+              <li><b data-i18n="hero.s1n"></b><span data-i18n="hero.s1"></span></li>
+              <li><b data-i18n="hero.s2n"></b><span data-i18n="hero.s2"></span></li>
+              <li><b data-i18n="hero.s3n"></b><span data-i18n="hero.s3"></span></li>
+            </ul>
+          </div>
+
+          <div class="hero__visual">
+            <div class="orbit" aria-hidden="true"></div>
+            <div class="mascot">
+              <div class="bubble" id="heroBubble" data-i18n="hero.bubble"></div>
+              <svg class="mascot__bot" role="img" aria-label="Tuta"><use href="#tuta-bot" /></svg>
+              <div class="mascot__shadow"></div>
+            </div>
+            <div class="float-card float-card--1"><span aria-hidden="true">🏅</span> <span data-i18n="hero.fc1"></span></div>
+            <div class="float-card float-card--2"><span aria-hidden="true">⚡</span> +30 XP</div>
+            <div class="float-card float-card--3"><span aria-hidden="true">🔥</span> 7 days</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           МАКЕТ ЗА СХЕМОЮ MIRO: ГЕЙМІФІКАЦІЯ -> ТУРНІРИ / КОРОТКІ КУРСИ
+           ======================================================== -->
+      <section id="arena" class="section arena-section">
+        <div class="container">
+          <header class="section__head reveal">
+            <span class="kicker" data-i18n="arena.kicker"></span>
+            <h2 data-i18n="arena.title"></h2>
+            <p data-i18n="arena.sub"></p>
+          </header>
+
+          <!-- ЧАСТИНА 1: ІНТЕРАКТИВНА СХЕМА MIRO (6 БЛОКІВ ЗІ СТРІЛКАМИ) -->
+          <div class="miro-board reveal" id="miroFlowchart">
+            <div class="miro-board__title" data-i18n="arena.miroTitle"></div>
+
+            <div class="miro-grid">
+              <!-- Ряд 1: Гейміфікація -> Короткі курси -> На основний курс -->
+              <button type="button" class="miro-node is-active" data-miro-node="short" id="miroNodeGamification">
+                <span class="miro-node__tag">START</span>
+                <strong data-i18n="arena.nodes.gamification"></strong>
+              </button>
+
+              <div class="miro-arrow miro-arrow--right" aria-hidden="true">→</div>
+
+              <button type="button" class="miro-node" data-miro-node="short" id="miroNodeShort">
+                <span class="miro-node__status" id="statusShort">0/3</span>
+                <strong data-i18n="arena.nodes.shortCourses"></strong>
+              </button>
+
+              <div class="miro-arrow miro-arrow--right" aria-hidden="true">⤷</div>
+
+              <button type="button" class="miro-node miro-node--goal" data-miro-node="main" id="miroNodeMain">
+                <span class="miro-node__status" id="statusMain">🎯</span>
+                <strong data-i18n="arena.nodes.mainCourse"></strong>
+              </button>
+
+              <!-- Стрілка вниз від Гейміфікації до Турнірів -->
+              <div class="miro-arrow miro-arrow--down" aria-hidden="true">↓</div>
+              <div class="miro-spacer" aria-hidden="true"></div>
+              <div class="miro-spacer" aria-hidden="true"></div>
+              <div class="miro-spacer" aria-hidden="true"></div>
+              <div class="miro-spacer" aria-hidden="true"></div>
+
+              <!-- Ряд 2: Турніри -> Оцінювання анонімне, з різних напрямків -->
+              <button type="button" class="miro-node" data-miro-node="tour" id="miroNodeTour">
+                <span class="miro-node__status" id="statusTour">⚔️</span>
+                <strong data-i18n="arena.nodes.tournaments"></strong>
+              </button>
+
+              <div class="miro-arrow miro-arrow--right" aria-hidden="true">→</div>
+
+              <button type="button" class="miro-node" data-miro-node="review" id="miroNodeReview">
+                <span class="miro-node__status" id="statusReview">0/2</span>
+                <strong data-i18n="arena.nodes.anonReview"></strong>
+              </button>
+
+              <div class="miro-spacer" aria-hidden="true"></div>
+              <div class="miro-spacer" aria-hidden="true"></div>
+
+              <!-- Стрілка вниз від Турнірів до Отримання поінтів та знижки -->
+              <div class="miro-arrow miro-arrow--down" aria-hidden="true">↓</div>
+              <div class="miro-spacer" aria-hidden="true"></div>
+              <div class="miro-spacer" aria-hidden="true"></div>
+              <div class="miro-spacer" aria-hidden="true"></div>
+              <div class="miro-spacer" aria-hidden="true"></div>
+
+              <!-- Ряд 3: Отримання поінтів, знижка -->
+              <button type="button" class="miro-node miro-node--discount" data-miro-node="main" id="miroNodeDiscount">
+                <span class="miro-node__status" id="statusDiscount">0%</span>
+                <strong data-i18n="arena.nodes.pointsDiscount"></strong>
+              </button>
+            </div>
+          </div>
+
+          <!-- ЧАСТИНА 2: ПРАКТИЧНИЙ ЕКРАН ТЕЛЕФОНА УЧНЯ -->
+          <div class="phone-mockup reveal" id="phoneArenaMockup">
+            <!-- Верхній статус-бар телефона -->
+            <div class="phone-mockup__notch" aria-hidden="true">
+              <span>9:41</span>
+              <span class="phone-mockup__pill"></span>
+              <span>5G 🔋</span>
+            </div>
+
+            <div class="phone-mockup__header">
+              <div class="phone-mockup__user">
+                <span class="phone-mockup__role" data-i18n="arena.phoneHeader.role"></span>
+                <div class="phone-mockup__track">
+                  <span data-i18n="arena.phoneHeader.myTrack"></span>
+                  <strong id="arenaUserTrackBadge">🐍 Python</strong>
+                </div>
+              </div>
+              <div class="phone-mockup__stats">
+                <div class="arena-pill arena-pill--pts">
+                  <small data-i18n="arena.phoneHeader.points"></small>
+                  <b id="arenaPointsVal">0 pts</b>
+                </div>
+                <div class="arena-pill arena-pill--disc">
+                  <small data-i18n="arena.phoneHeader.discount"></small>
+                  <b id="arenaDiscountVal">0%</b>
+                </div>
+              </div>
+            </div>
+
+            <!-- Вкладки всередині телефона (4 екрани за схемою Miro) -->
+            <div class="phone-mockup__tabs" role="tablist">
+              <button type="button" class="phone-tab is-active" data-arena-tab="short" data-i18n="arena.tabs.short"></button>
+              <button type="button" class="phone-tab" data-arena-tab="tour" data-i18n="arena.tabs.tour"></button>
+              <button type="button" class="phone-tab" data-arena-tab="review" data-i18n="arena.tabs.review"></button>
+              <button type="button" class="phone-tab" data-arena-tab="main" data-i18n="arena.tabs.main"></button>
+            </div>
+
+            <!-- Динамічний контент активного екрана телефона -->
+            <div class="phone-mockup__body" id="arenaPhoneBody" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ ЯК ЦЕ ПРАЦЮЄ (БЕЗ ВИКЛАДАЧІВ) ============ -->
+      <section id="how" class="section">
+        <div class="container">
+          <header class="section__head reveal">
+            <span class="kicker" data-i18n="how.kicker"></span>
+            <h2 data-i18n="how.title"></h2>
+            <p data-i18n="how.sub"></p>
+          </header>
+
+          <div class="how-grid">
+            <ol class="steps">
+              <li class="step reveal">
+                <span class="step__num">1</span>
+                <span class="step__icon step__icon--pink" aria-hidden="true">🎬</span>
+                <div><h3 data-i18n="how.s1t"></h3><p data-i18n="how.s1d"></p></div>
+              </li>
+              <li class="step reveal">
+                <span class="step__num">2</span>
+                <span class="step__icon step__icon--cyan" aria-hidden="true">🕹️</span>
+                <div><h3 data-i18n="how.s2t"></h3><p data-i18n="how.s2d"></p></div>
+              </li>
+              <li class="step reveal">
+                <span class="step__num">3</span>
+                <span class="step__icon step__icon--violet" aria-hidden="true">🤖</span>
+                <div><h3 data-i18n="how.s3t"></h3><p data-i18n="how.s3d"></p></div>
+              </li>
+              <li class="step reveal">
+                <span class="step__num">4</span>
+                <span class="step__icon step__icon--lime" aria-hidden="true">🏆</span>
+                <div><h3 data-i18n="how.s4t"></h3><p data-i18n="how.s4d"></p></div>
+              </li>
+            </ol>
+
+            <div class="chat reveal" id="chatDemo">
+              <div class="chat__head">
+                <span class="chat__avatar"><svg><use href="#tuta-bot" /></svg></span>
+                <div>
+                  <b data-i18n="how.chatTitle"></b>
+                  <small><span class="dot-online"></span> <span data-i18n="how.chatStatus"></span></small>
+                </div>
+              </div>
+              <div class="chat__body" id="chatBody" aria-live="polite"></div>
+              <div class="chat__interactive" id="chatChoicesWrap"></div>
+              <p class="chat__note" data-i18n="how.chatNote"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ ІНТЕРАКТИВНИЙ МАЙДАНЧИК (МІНІ-ІГРИ) ============ -->
+      <section id="play" class="section">
+        <div class="container">
+          <header class="section__head reveal">
+            <span class="kicker" data-i18n="play.kicker"></span>
+            <h2 data-i18n="play.title"></h2>
+            <p data-i18n="play.sub"></p>
+          </header>
+
+          <div class="tabs" role="tablist">
+            <button type="button" class="tab" role="tab" data-tab="robot"><span aria-hidden="true">🤖</span> <span data-i18n="play.tabRobot"></span><i class="tab__check">✓</i></button>
+            <button type="button" class="tab" role="tab" data-tab="circuit"><span aria-hidden="true">💡</span> <span data-i18n="play.tabCircuit"></span><i class="tab__check">✓</i></button>
+            <button type="button" class="tab" role="tab" data-tab="bug"><span aria-hidden="true">🐞</span> <span data-i18n="play.tabBug"></span><i class="tab__check">✓</i></button>
+          </div>
+
+          <!-- Гра 1: Робот (7–12) / Автопілот if/else (12–18) -->
+          <div class="game" role="tabpanel" data-panel="robot">
+            <div class="game__head">
+              <h3 data-i18n="robot.title"></h3>
+              <span class="chip" id="robotLevel"></span>
+            </div>
+            <p class="game__task" data-i18n="robot.task"></p>
+
+            <div class="robot-layout">
+              <div class="board" id="robotBoard">
+                <div class="robot" id="robotEl"><svg><use href="#tuta-bot" /></svg></div>
+              </div>
+
+              <div class="robot-controls">
+                <div class="program">
+                  <div class="program__label"><span data-i18n="robot.program"></span> <small id="robotCount"></small></div>
+                  <div class="program__list" id="robotProgram"></div>
+                  <small class="program__tip" data-i18n="robot.remove"></small>
+                </div>
+
+                <!-- Блок коду автопілота для режиму 12–18 -->
+                <div class="autopilot-box" id="autopilotBox">
+                  <div class="autopilot-code">
+                    <code><span class="tk-kw">while</span> (bot.pos != BATTERY) {</code>
+                    <code>  <span class="tk-kw">if</span> (sensor.front == ROCK) <span class="tk-fn">evade</span>();</code>
+                    <code>  <span class="tk-kw">else</span> <span class="tk-fn">step_optimal</span>();</code>
+                    <code>}</code>
+                  </div>
+                  <button type="button" class="btn btn--ghost btn--sm btn--block" id="robotAutopilotBtn" data-i18n="robot.autopilotBtn"></button>
+                </div>
+
+                <div class="dpad">
+                  <button type="button" class="dpad__btn dpad__up" data-dir="up" aria-label="up">↑</button>
+                  <button type="button" class="dpad__btn dpad__left" data-dir="left" aria-label="left">←</button>
+                  <button type="button" class="dpad__btn dpad__down" data-dir="down" aria-label="down">↓</button>
+                  <button type="button" class="dpad__btn dpad__right" data-dir="right" aria-label="right">→</button>
+                </div>
+
+                <div class="game__actions">
+                  <button type="button" class="btn btn--primary" id="robotRun" data-i18n="robot.run"></button>
+                  <button type="button" class="btn btn--ghost" id="robotReset" data-i18n="robot.reset"></button>
+                  <button type="button" class="btn btn--text" id="robotClear" data-i18n="robot.clear"></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="tuta-msg" id="robotMsg" aria-live="polite"></div>
+            <button type="button" class="btn btn--primary btn--block" id="robotNext" hidden data-i18n="robot.next"></button>
+          </div>
+
+          <!-- Гра 2: Схема (Світлодіод та закон Ома) -->
+          <div class="game" role="tabpanel" data-panel="circuit" hidden>
+            <div class="game__head">
+              <h3 data-i18n="circuit.title"></h3>
+              <span class="chip">DC 5V</span>
+            </div>
+            <p class="game__task" data-i18n="circuit.task"></p>
+
+            <div class="circuit-layout">
+              <div class="circuit-stage" id="circuitStage">
+                <svg class="circuit" id="circuitSvg" viewBox="0 0 320 180" role="img" aria-label="circuit">
+                  <!-- Струм (анімація) -->
+                  <path class="c-flow" d="M40 54 V30 H280 V150 H40 V120" />
+                  <!-- Дроти -->
+                  <path class="c-wire" d="M40 54 V30 H100" />
+                  <path class="c-wire" d="M150 30 H180" />
+                  <path class="c-wire c-wire--short" id="cShort" d="M180 30 H240" />
+                  <path class="c-wire" d="M240 30 H280 V72" />
+                  <path class="c-wire" d="M280 108 V150 H40 V120" />
+                  <!-- Батарея -->
+                  <rect x="30" y="48" width="20" height="8" rx="2" fill="#7C8BC2" />
+                  <rect class="c-battery" x="20" y="54" width="40" height="66" rx="8" />
+                  <rect x="20" y="54" width="40" height="22" rx="8" fill="#B8FF3C" />
+                  <rect x="20" y="66" width="40" height="10" fill="#B8FF3C" />
+                  <text x="40" y="100" class="c-label" text-anchor="middle">5V</text>
+                  <!-- Вимикач -->
+                  <circle cx="100" cy="30" r="5" class="c-node" />
+                  <circle cx="150" cy="30" r="5" class="c-node" />
+                  <line id="cLever" x1="100" y1="30" x2="148" y2="30" class="c-lever" />
+                  <!-- Резистор -->
+                  <g id="cResistor">
+                    <path class="c-res" d="M180 30 L186 20 L194 40 L202 20 L210 40 L218 20 L226 40 L234 20 L240 30" />
+                    <text x="210" y="58" class="c-label" text-anchor="middle" id="cResLabel">220 Ω</text>
+                  </g>
+                  <!-- Світлодіод -->
+                  <circle id="cGlow" cx="280" cy="90" r="22" filter="url(#ledGlow)" />
+                  <circle id="cLed" cx="280" cy="90" r="17" />
+                  <path d="M271 84 L289 84 L280 98 Z M271 98 H289" class="c-led-sym" />
+                  <text x="280" y="135" class="c-label" text-anchor="middle">LED</text>
+                </svg>
+                <div class="boom" id="cBoom" aria-hidden="true">💥</div>
+              </div>
+
+              <div class="circuit-controls">
+                <div class="ctrl">
+                  <span class="ctrl__label" data-i18n="circuit.resistor"></span>
+                  <div class="seg-options" id="resOptions">
+                    <button type="button" data-res="none" data-i18n="circuit.none"></button>
+                    <button type="button" data-res="220">220 Ω</button>
+                    <button type="button" data-res="10000">10 kΩ</button>
+                  </div>
+                </div>
+                <div class="ctrl">
+                  <span class="ctrl__label" data-i18n="circuit.color"></span>
+                  <div class="color-options" id="colorOptions">
+                    <button type="button" data-color="red" style="--c:#FF4D4D" aria-label="red"></button>
+                    <button type="button" data-color="green" style="--c:#3CFF7A" aria-label="green"></button>
+                    <button type="button" data-color="blue" style="--c:#4DA3FF" aria-label="blue"></button>
+                  </div>
+                </div>
+                <button type="button" class="power-btn" id="powerBtn"></button>
+                <div class="formula" id="cFormula"></div>
+              </div>
+            </div>
+
+            <div class="tuta-msg" id="circuitMsg" aria-live="polite"></div>
+            <button type="button" class="btn btn--ghost btn--block" id="repairBtn" hidden data-i18n="circuit.repair"></button>
+          </div>
+
+          <!-- Гра 3: Знайди баг -->
+          <div class="game" role="tabpanel" data-panel="bug" hidden>
+            <div class="game__head">
+              <h3 data-i18n="bug.title"></h3>
+              <span class="chip" id="bugRound"></span>
+            </div>
+            <p class="game__task"><span id="bugStory"></span> <b data-i18n="bug.task"></b></p>
+
+            <div class="code" id="bugCode">
+              <div class="code__bar"><i></i><i></i><i></i><span id="bugFile">game.py</span></div>
+              <div class="code__lines" id="bugLines"></div>
+            </div>
+
+            <button type="button" class="btn btn--text" id="bugHintBtn" data-i18n="bug.hintBtn"></button>
+            <div class="tuta-msg" id="bugMsg" aria-live="polite"></div>
+            <button type="button" class="btn btn--primary btn--block" id="bugNext" hidden data-i18n="bug.next"></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ НАПРЯМИ ТА КВІЗ ============ -->
+      <section id="tracks" class="section">
+        <div class="container">
+          <header class="section__head reveal">
+            <span class="kicker" data-i18n="tracks.kicker"></span>
+            <h2 data-i18n="tracks.title"></h2>
+            <p data-i18n="tracks.sub"></p>
+          </header>
+
+          <div class="quiz reveal" id="quiz"></div>
+          <div class="tracks-grid" id="tracksGrid"></div>
+        </div>
+      </section>
+
+      <!-- ============ ТАРИФИ ПІДПИСКИ ============ -->
+      <section id="pricing" class="section">
+        <div class="container">
+          <header class="section__head reveal">
+            <span class="kicker" data-i18n="pricing.kicker"></span>
+            <h2 data-i18n="pricing.title"></h2>
+            <p data-i18n="pricing.sub"></p>
+          </header>
+
+          <div class="pricing-bar reveal">
+            <div class="billing-toggle" id="billingToggle">
+              <button type="button" data-billing="monthly" class="is-active" data-i18n="pricing.monthly"></button>
+              <button type="button" data-billing="yearly" data-i18n="pricing.yearly"></button>
+            </div>
+            <div class="currency-toggle" id="currencyToggle" role="group" aria-label="Currency">
+              <button type="button" data-curr="UAH" class="is-active">₴ UAH</button>
+              <button type="button" data-curr="EUR">€ EUR</button>
+              <button type="button" data-curr="USD">$ USD</button>
+            </div>
+          </div>
+
+          <div class="pricing-grid" id="pricingGrid"></div>
+        </div>
+      </section>
+
+      <!-- ============ НАГОРОДИ ТА ПРОФІЛЬ ============ -->
+      <section id="rewards" class="section">
+        <div class="container">
+          <header class="section__head reveal">
+            <span class="kicker" data-i18n="rewards.kicker"></span>
+            <h2 data-i18n="rewards.title"></h2>
+            <p data-i18n="rewards.sub"></p>
+          </header>
+
+          <div class="level-card reveal" id="levelCard"></div>
+          <div class="badges" id="badgesGrid"></div>
+        </div>
+      </section>
+
+      <!-- ============ БАТЬКАМ ============ -->
+      <section id="parents" class="section">
+        <div class="container">
+          <header class="section__head reveal">
+            <span class="kicker" data-i18n="parents.kicker"></span>
+            <h2 data-i18n="parents.title"></h2>
+          </header>
+
+          <div class="features">
+            <div class="feature reveal"><span class="feature__icon" aria-hidden="true">📊</span><h3 data-i18n="parents.f1t"></h3><p data-i18n="parents.f1d"></p></div>
+            <div class="feature reveal"><span class="feature__icon" aria-hidden="true">⚡</span><h3 data-i18n="parents.f2t"></h3><p data-i18n="parents.f2d"></p></div>
+            <div class="feature reveal"><span class="feature__icon" aria-hidden="true">🧠</span><h3 data-i18n="parents.f3t"></h3><p data-i18n="parents.f3d"></p></div>
+            <div class="feature reveal"><span class="feature__icon" aria-hidden="true">🛡️</span><h3 data-i18n="parents.f4t"></h3><p data-i18n="parents.f4d"></p></div>
+            <div class="feature reveal"><span class="feature__icon" aria-hidden="true">📱</span><h3 data-i18n="parents.f5t"></h3><p data-i18n="parents.f5d"></p></div>
+          </div>
+
+          <h3 class="faq__title reveal" data-i18n="parents.faqTitle"></h3>
+          <div class="faq reveal" id="faqList"></div>
+        </div>
+      </section>
+
+      <!-- ============ ФІНАЛЬНИЙ CTA ============ -->
+      <section class="section section--cta">
+        <div class="container">
+          <div class="cta-card reveal">
+            <svg class="cta-card__bot" aria-hidden="true"><use href="#tuta-bot" /></svg>
+            <div>
+              <h2 data-i18n="cta.title"></h2>
+              <p data-i18n="cta.sub"></p>
+              <button type="button" class="btn btn--dark btn--lg" data-open-signup data-i18n="cta.btn"></button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer" id="footer">
+      <div class="container footer__inner">
+        <div>
+          <a href="#home" class="logo"><span class="logo__mark"><svg><use href="#tuta-bot" /></svg></span><span class="logo__text">Tuta<b>Code</b></span></a>
+          <p data-i18n="footer.tagline"></p>
+        </div>
+        <div class="footer__links">
+          <a href="#signup" data-open-signup data-i18n="footer.contacts"></a>
+          <a href="#parents" data-i18n="footer.privacy"></a>
+          <span data-i18n="footer.rights"></span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ============ НИЖНЯ НАВІГАЦІЯ (мобільна iOS / Android) ============ -->
+    <nav class="bottomnav" aria-label="Mobile">
+      <a href="#home" data-nav="home"><span aria-hidden="true">🏠</span><small data-i18n="nav.home"></small></a>
+      <a href="#arena" data-nav="arena"><span aria-hidden="true">⚔️</span><small data-i18n="nav.arena"></small></a>
+      <button type="button" class="bottomnav__cta" data-open-signup data-i18n-aria="nav.start"><span aria-hidden="true">🚀</span></button>
+      <a href="#play" data-nav="play"><span aria-hidden="true">🎮</span><small data-i18n="nav.play"></small></a>
+      <a href="#rewards" data-nav="rewards"><span aria-hidden="true">🏆</span><small data-i18n="nav.rewards"></small></a>
+    </nav>
+
+  </div>
+
+  <!-- ============ РЕЄСТРАЦІЯ (bottom sheet) ============ -->
+  <div class="sheet" id="signupSheet" aria-hidden="true">
+    <div class="sheet__backdrop" data-close-signup></div>
+    <div class="sheet__panel" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+      <div class="sheet__grip" aria-hidden="true"></div>
+      <button type="button" class="sheet__close" data-close-signup aria-label="Close">✕</button>
+
+      <div id="signupFormWrap">
+        <h3 id="sheetTitle" data-i18n="signup.title"></h3>
+        <p class="sheet__sub" data-i18n="signup.sub"></p>
+        <form id="signupForm" novalidate>
+          <label class="field">
+            <span data-i18n="signup.name"></span>
+            <input name="name" type="text" autocomplete="given-name" required data-i18n-ph="signup.namePh" />
+            <em class="field__err" data-i18n="signup.required"></em>
+          </label>
+          <div class="field">
+            <span data-i18n="signup.age"></span>
+            <div class="choice">
+              <label><input type="radio" name="age" value="7-11" checked /><span>7–11</span></label>
+              <label><input type="radio" name="age" value="12-14" /><span>12–14</span></label>
+              <label><input type="radio" name="age" value="15-18" /><span>15–18</span></label>
+            </div>
+          </div>
+          <label class="field">
+            <span data-i18n="signup.contact"></span>
+            <input name="contact" type="text" autocomplete="email" required data-i18n-ph="signup.contactPh" />
+            <em class="field__err" data-i18n="signup.required"></em>
+          </label>
+          <button type="submit" class="btn btn--primary btn--block btn--lg" data-i18n="signup.submit"></button>
+          <p class="fine" data-i18n="signup.note"></p>
+        </form>
+      </div>
+
+      <div id="signupSuccess" class="success" hidden>
+        <svg class="success__bot" aria-hidden="true"><use href="#tuta-bot" /></svg>
+        <h3 data-i18n="signup.successT"></h3>
+        <p data-i18n="signup.successD"></p>
+        <button type="button" class="btn btn--primary btn--block" data-close-signup data-i18n="signup.close"></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
